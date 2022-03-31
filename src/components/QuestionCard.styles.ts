@@ -1,15 +1,26 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  max-width: 1100px;
-  background: #ebfeff;
-  border-radius: 10px;
-  border: 2px solid #0085a3;
-  padding: 20px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
   text-align: center;
-  p {
-    font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 114rem;
+
+  .questionNr {
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-top: 1rem;
+  }
+
+  /* .question {
+     margin-bottom: 1rem; 
+  } */
+
+  .answers {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 `;
 
@@ -20,26 +31,26 @@ type ButtonWrapperProps = {
 
 export const ButtonWrapper = styled.div<ButtonWrapperProps>`
   transition: all 0.3s ease;
+
   :hover {
     opacity: 0.8;
   }
+
   button {
     cursor: pointer;
     user-select: none;
-    font-size: 0.8rem;
+    font-size: 1.6rem;
     width: 100%;
-    height: 40px;
-    margin: 5px 0;
+
     background: ${({ correct, userClicked }) =>
       correct
-        ? "linear-gradient(90deg, #56FFA4, #59BC86)"
+        ? "rgba( 131, 225, 29, 0.5 )"
         : !correct && userClicked
-        ? "linear-gradient(90deg, #FF5656, #C16868)"
-        : "linear-gradient(90deg, #56ccff, #6eafb4)"};
-    border: 3px solid #ffffff;
-    box-shadow: 1px 2px 0px rgba(0, 0, 0, 0.1);
+        ? "rgba(255, 0, 0, 0.5)"
+        : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"};
+
+    border: 2px solid rgba(144, 19, 254, 0.5);
     border-radius: 10px;
     color: #fff;
-    text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.25);
   }
 `;

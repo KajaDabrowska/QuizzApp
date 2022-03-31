@@ -17,12 +17,22 @@ export enum Difficulty {
   HARD = "hard",
 }
 
+export type ApiOptions = {
+  category: string | null;
+  difficulty: Difficulty;
+};
+
 export const fetchQuizQuestions = async (
   amount: number,
-  difficulty: Difficulty
+  apiOptions: ApiOptions
 ) => {
-  const endpoint = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=multiple`;
+  const { category, difficulty } = apiOptions;
+  console.log(category, difficulty);
 
+  const endpoint = `https://opentdb.com/api.php?amount=${amount}${
+    category ? "&category=" + category : ""
+  }&difficulty=${difficulty}&type=multiple`;
+  console.log(endpoint);
   const data = await (await fetch(endpoint)).json();
 
   return data.results.map((question: Question) => ({
@@ -33,3 +43,9 @@ export const fetchQuizQuestions = async (
     ]),
   }));
 };
+
+// https://opentdb.com/api.php?amount=10&category=23
+
+//https://opentdb.com/api.php?amount=10&category=23&difficulty=easy
+
+//https://opentdb.com/api.php?amount=10&category=24&difficulty=easy&type=multiple
