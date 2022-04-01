@@ -47,10 +47,15 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
         ? "rgba( 131, 225, 29, 0.5 )"
         : !correct && userClicked
         ? "rgba(255, 0, 0, 0.5)"
-        : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"};
+        : "linear-gradient(135deg, var(--clr-left) 0%, var(--clr-right) 100%)"};
 
-    border: 2px solid rgba(144, 19, 254, 0.5);
+    border: 2px solid var(--clr-brd);
     border-radius: 10px;
-    color: #fff;
+    color: var(--clr-white);
+
+    :focus-visible {
+      opacity: 0.8;
+      transform: scale(0.99);
+    }
   }
 `;

@@ -28,21 +28,41 @@ const QuestionCard: React.FC<Props> = ({
     <p className="question" dangerouslySetInnerHTML={{ __html: question }} />
 
     <div className="answers">
-      {answers.map((answer) => (
-        <ButtonWrapper
-          key={answer}
-          correct={userAnswer?.correctAnswer === answer}
-          userClicked={userAnswer?.answer === answer}
-        >
-          <button
-            disabled={userAnswer ? true : false}
-            onClick={callback}
-            value={answer}
-          >
-            <span dangerouslySetInnerHTML={{ __html: answer }} />
-          </button>
-        </ButtonWrapper>
-      ))}
+      {answers.map((answer) => {
+        if (answer === answers[0]) {
+          return (
+            <ButtonWrapper
+              key={answer}
+              correct={userAnswer?.correctAnswer === answer}
+              userClicked={userAnswer?.answer === answer}
+            >
+              <button
+                disabled={userAnswer ? true : false}
+                onClick={callback}
+                value={answer}
+                autoFocus
+              >
+                <span dangerouslySetInnerHTML={{ __html: answer }} />
+              </button>
+            </ButtonWrapper>
+          );
+        } else
+          return (
+            <ButtonWrapper
+              key={answer}
+              correct={userAnswer?.correctAnswer === answer}
+              userClicked={userAnswer?.answer === answer}
+            >
+              <button
+                disabled={userAnswer ? true : false}
+                onClick={callback}
+                value={answer}
+              >
+                <span dangerouslySetInnerHTML={{ __html: answer }} />
+              </button>
+            </ButtonWrapper>
+          );
+      })}
     </div>
   </Wrapper>
 );

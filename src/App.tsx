@@ -24,6 +24,7 @@ const TOTAL_QUESTIONS = 10;
 
 const App = () => {
   const [loading, setLoading] = useState(false);
+  const [errored, setErrored] = useState(false);
   const [questions, setQuestions] = useState<QuestionState[]>([]);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
@@ -43,19 +44,18 @@ const App = () => {
   // now it's one step behind kind of
   // it's not a problem cuz it goes well on submit
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(apiOptions);
+    // console.log(apiOptions);
     setApiOptions((prevOptions) => ({
       ...prevOptions,
       [e.target.id]: e.target.value,
     }));
-    console.log(apiOptions);
+    // console.log(apiOptions);
   };
 
   const startTrivia = async () => {
+    setErrored(false);
     setLoading(true);
     setGameOver(false);
-
-    console.log(apiOptions);
 
     try {
       const newQuestions = await fetchQuizQuestions(
@@ -69,8 +69,11 @@ const App = () => {
       setQuestionNumber(0);
       setLoading(false);
     } catch (err) {
-      console.error(err);
-      //TODO some error display
+      // console.error(err);
+
+      setErrored(true);
+      setLoading(false);
+      setGameOver(true);
     }
   };
 
@@ -102,8 +105,6 @@ const App = () => {
     }
   };
 
-  // console.log(fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.EASY));
-
   //TODO make into smaller compnents cuz messssy
   return (
     <>
@@ -121,6 +122,7 @@ const App = () => {
                   name="categories"
                   id="category"
                   className="btn select"
+                  autoFocus
                 >
                   <option value="any">Any Category</option>
                   <option value="9">General Knowledge</option>
@@ -156,8 +158,6 @@ const App = () => {
                 </select>
               </div>
 
-              {/* <input type="submit" name="Submit" id="" /> */}
-
               <div className="difficulty">
                 <label htmlFor="difficulty">Choose diffculty: </label>
                 <select
@@ -173,15 +173,24 @@ const App = () => {
                 </select>
               </div>
 
+              {errored ? (
+                <p className="error">Error fetching data! 😵 </p>
+              ) : null}
+
               <button className="btn start " type="submit">
-                {userAnswers.length === TOTAL_QUESTIONS ? "Restart" : "Start"}
+                {userAnswers.length === TOTAL_QUESTIONS || errored
+                  ? "Restart"
+                  : "Start"}
               </button>
             </form>
           ) : null}
 
-          {!gameOver ? <p className="score">Score: {score}</p> : null}
+          {!gameOver && !errored ? (
+            <p className="score">Score: {score}</p>
+          ) : null}
           {loading && <p>Loading Questions...</p>}
-          {!loading && !gameOver ? (
+
+          {!loading && !gameOver && !errored ? (
             <QuestionCard
               questionNr={questionNumber + 1}
               totalQuestions={TOTAL_QUESTIONS}
@@ -193,9 +202,10 @@ const App = () => {
           ) : null}
           {!gameOver &&
           !loading &&
+          !errored &&
           userAnswers.length === questionNumber + 1 &&
           questionNumber !== TOTAL_QUESTIONS - 1 ? (
-            <button className="btn next" onClick={nextQuestion}>
+            <button autoFocus className="btn next" onClick={nextQuestion}>
               Next Question
             </button>
           ) : null}

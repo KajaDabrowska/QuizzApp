@@ -27,25 +27,27 @@ export const fetchQuizQuestions = async (
   apiOptions: ApiOptions
 ) => {
   const { category, difficulty } = apiOptions;
-  console.log(category, difficulty);
 
   const endpoint = `https://opentdb.com/api.php?amount=${amount}${
     category ? "&category=" + category : ""
   }&difficulty=${difficulty}&type=multiple`;
-  console.log(endpoint);
-  const data = await (await fetch(endpoint)).json();
 
-  return data.results.map((question: Question) => ({
-    ...question,
-    answers: shuffleArray([
-      ...question.incorrect_answers,
-      question.correct_answer,
-    ]),
-  }));
+  try {
+    const data = await (await fetch(endpoint)).json();
+
+    if (data.response_code === 0) {
+      return data.results.map((question: Question) => ({
+        ...question,
+        answers: shuffleArray([
+          ...question.incorrect_answers,
+          question.correct_answer,
+        ]),
+      }));
+    } else throw new Error();
+  } catch (err) {
+    // console.error(err);
+    throw new Error();
+  }
 };
-
-// https://opentdb.com/api.php?amount=10&category=23
-
-//https://opentdb.com/api.php?amount=10&category=23&difficulty=easy
 
 //https://opentdb.com/api.php?amount=10&category=24&difficulty=easy&type=multiple
