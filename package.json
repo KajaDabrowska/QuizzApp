@@ -41,5 +41,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-detect-offline": "^2.4.1",
+    "react-detect-offline": "^2.4.5"
   }
 }

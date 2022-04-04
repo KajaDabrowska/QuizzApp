@@ -12,31 +12,39 @@ export type Question = {
 export type QuestionState = Question & { answers: string[] };
 
 export enum Difficulty {
+  ANY = "any",
   EASY = "easy",
   MEDIUM = "medium",
   HARD = "hard",
 }
 
+//category: string | null;
 export type ApiOptions = {
-  category: string | null;
+  category: string;
   difficulty: Difficulty;
+};
+
+const getAPIEndpoint = (amount: number, apiOptions: ApiOptions) => {
+  const { category, difficulty } = apiOptions;
+  // console.log(category, difficulty);
+
+  const endpoint = `https://opentdb.com/api.php?amount=${amount}${
+    category !== "any" ? "&category=" + category : ""
+  }${difficulty !== "any" ? "&difficulty=" + difficulty : ""}&type=multiple`;
+  // console.log(endpoint);
+
+  return endpoint;
 };
 
 export const fetchQuizQuestions = async (
   amount: number,
   apiOptions: ApiOptions
 ) => {
-  const { category, difficulty } = apiOptions;
-  //BUG for "any" diff or categ
-  console.log(category, difficulty);
-
-  const endpoint = `https://opentdb.com/api.php?amount=${amount}${
-    category ? "&category=" + category : ""
-  }&difficulty=${difficulty}&type=multiple`;
-  console.log(endpoint);
+  const endpoint = getAPIEndpoint(amount, apiOptions);
 
   try {
     const data = await (await fetch(endpoint)).json();
+    // console.log(data);
 
     if (data.response_code === 0) {
       return data.results.map((question: Question) => ({
@@ -48,7 +56,7 @@ export const fetchQuizQuestions = async (
       }));
     } else throw new Error();
   } catch (err) {
-    // console.error(err);
+    console.error(err);
     throw new Error();
   }
 };

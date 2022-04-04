@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Offline } from "react-detect-offline";
 
 import {
   fetchQuizQuestions,
@@ -31,8 +32,8 @@ const App = () => {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
   const [apiOptions, setApiOptions] = useState<ApiOptions>({
-    category: null,
-    difficulty: Difficulty.EASY,
+    category: "any",
+    difficulty: Difficulty.ANY,
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -124,7 +125,7 @@ const App = () => {
                   className="btn select"
                   autoFocus
                 >
-                  <option value="">Any Category</option>
+                  <option value="any">Any Category</option>
                   <option value="9">General Knowledge</option>
 
                   <optgroup label="Entertainment">
@@ -144,7 +145,7 @@ const App = () => {
                     <option value="17">Science &amp; Nature</option>
                     <option value="18">Computers</option>
                     <option value="19">Mathematics</option>
-                    <option value="30">Gadgets</option>
+                    {/*BUG works only without chosen difficulty or with less questions=> <option value="30">Gadgets</option> */}
                   </optgroup>
 
                   <option value="20">Mythology</option>
@@ -153,7 +154,7 @@ const App = () => {
                   <option value="27">Animals</option>
                   <option value="22">Geography</option>
                   <option value="23">History</option>
-                  <option value="24">Politics</option>
+                  {/* <option value="24">Politics</option> */}
                   <option value="25">Art</option>
                   <option value="26">Celebrities</option>
                 </select>
@@ -167,7 +168,7 @@ const App = () => {
                   id="difficulty"
                   className="btn select"
                 >
-                  <option value="medium">Any Difficulty</option>
+                  <option value="any">Any Difficulty</option>
                   <option value="easy">Easy</option>
                   <option value="medium">Medium</option>
                   <option value="hard">Hard</option>
@@ -177,6 +178,10 @@ const App = () => {
               {errored ? (
                 <p className="error">Error fetching data! 😵 </p>
               ) : null}
+
+              <Offline>
+                <p className="error">No internet connection! 😵</p>
+              </Offline>
 
               <button className="btn start " type="submit">
                 {userAnswers.length === TOTAL_QUESTIONS || errored
