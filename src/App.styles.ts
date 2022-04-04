@@ -60,7 +60,6 @@ body {
 img,
 picture {
   max-width: 100%;
-  /* display: block; */
 }
 
 input,
@@ -85,32 +84,14 @@ select {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}  
-/* ------------------------------ */
+} 
+
 /* --- CUSTOM PROPERTIES --- */
-/* ------------------------------ */
 :root {
-  /* colors */
   --clr-right: #764ba2;
   --clr-left: #4665f2;
   --clr-white: #ffffff;
   --clr-brd: rgba(144, 19, 254, 0.5);
-
-  /* font sizes */
-  --fs-900: clamp(5rem, 8vw + 1rem, 9.375rem);
-  --fs-800: 3.5rem;
-  --fs-700: 1.5rem;
-  --fs-600: 1rem;
-  --fs-500: 1rem;
-  --fs-400: 0.9375rem;
-  --fs-300: 1rem;
-  --fs-200: 0.875rem;
-
-  /* font-families */
-  --ff-serif: "Bellefair", serif;
-  --ff-sans-cond: "Barlow Condensed", sans-serif;
-  --ff-sans-normal: "Barlow", sans-serif;
-
 }
     
 `;
@@ -131,13 +112,21 @@ export const Wrapper = styled.div`
 
     display: flex;
     flex-direction: column;
-    padding: 4rem 3rem;
+    padding: 4rem 3rem 3rem;
   }
 
   .score {
-    /* color: var(--clr-white); */
     font-size: 2rem;
-    margin: 0;
+    margin: 2rem 0;
+  }
+
+  .congrats {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-align: center;
+    text-transform: uppercase;
+    margin-block: 0rem 1rem;
   }
 
   .error {
@@ -145,7 +134,6 @@ export const Wrapper = styled.div`
     font-weight: 500;
     letter-spacing: 1.2;
     text-transform: uppercase;
-    /* color: rgba(255, 0, 0, 0.9); */
     align-self: center;
     margin-top: 1rem;
   }
@@ -153,7 +141,7 @@ export const Wrapper = styled.div`
   h1 {
     font-family: "Poppins";
     font-weight: 700;
-    font-size: 6rem;
+    font-size: clamp(5rem, 9vw + 1rem, 8rem);
     letter-spacing: 0.4rem;
     text-align: center;
     margin: 0px;
@@ -169,17 +157,15 @@ export const Wrapper = styled.div`
 
   .btn {
     cursor: pointer;
-    margin: 10px 0;
-    padding: 10px 40px;
-
-    /* color: var(--clr-white); */
     background-color: rgb(144, 19, 254);
     background-image: linear-gradient(
       135deg,
       var(--clr-left) 0%,
       var(--clr-right) 100%
     );
-    /* background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+
+    margin: 10px 0;
+    padding: 10px 40px;
     border: 2px solid var(--clr-brd);
     border-radius: 10px;
   }
@@ -201,12 +187,18 @@ export const Wrapper = styled.div`
     border-radius: 10px;
   }
 
-  //TODO
-  //mobile view
   @media (max-width: 40em) {
     .card {
       width: 100%;
-      height: 100%;
+      height: 100vh;
+
+      justify-content: center;
+      align-items: center;
+      padding: 2rem max(7vw, 1rem);
+    }
+
+    .btn {
+      font-size: 1.4rem;
     }
   } ;
 `;
